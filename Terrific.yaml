@@ -1,0 +1,14 @@
+pipeline:
+  name: "Terrific SSH Command Pipeline"
+
+repo: 
+  url: "https://github.com/terrific-ci/exampleproject.git"
+  branch: "main"
+
+stages:
+  - name: Remote Deploy
+    when: repo.branch == "main"
+    steps:
+      - run:
+        commands:
+          - command: "docker build -t exampleproject ."
