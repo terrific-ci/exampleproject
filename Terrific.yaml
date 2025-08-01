@@ -1,14 +1,29 @@
+# Terrific CI Pipeline Configuration
+# Basic pipeline information
 pipeline:
-  name: "Terrific SSH Command Pipeline"
+  name: "Example Project CI/CD"
+  description: "Builds and deploys the example project"
 
 repo: 
   url: "https://github.com/terrific-ci/exampleproject.git"
   branch: "main"
 
+# Pipeline stages
 stages:
-  - name: Remote Deploy
-    when: repo.branch == "main"
+  # Build stage
+  - name: "Build"
+    when: "always" # This stage always runs
     steps:
-      - run:
-        commands:
-          - command: "docker build -t exampleproject ."
+      - name: "Build Docker Image"
+        run:
+          commands:
+            - "docker build -t terrificimage ."
+
+  - name: "Deploy"
+    when: "repo.branch == 'main' && stages.Build.status == 'success'" # Only deploy on main branch after successful build
+    steps:
+      - name: "Push to Registry"
+        run:
+          commands:
+            - "docker tag terrificimage terrificimage:1.0.0"
+            - "docker push terrificimage"
