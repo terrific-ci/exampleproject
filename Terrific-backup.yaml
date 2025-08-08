@@ -1,6 +1,6 @@
-config: 
-  - runtime: node:18
-  - environment: terrificproject
+
+environment:
+  - context: "terrificproject"
     
 stages:
   - name: Build App And Push To Repository
@@ -17,6 +17,6 @@ stages:
             destination: "/home/vannila/terrificdeployment"
         commands:
           - "cd /home/vannila/terrificdeployment"
-          - "docker compose up -d "
+          - "docker run terrificci/projectexample:latest"
           
     
